@@ -43,7 +43,7 @@ This uses Docker to build against Heroku
 [stack-image](https://github.com/heroku/stack-images)-like images.
 
 ```bash
-make
+make VERSION=5.0.1
 ```
 
-Artifacts will be dropped in `dist/`.  See `Dockerfile`s for build options.
+Artifacts will be dropped in `dist/` based on Heroku stack and jemalloc version.
