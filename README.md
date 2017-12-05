@@ -1,7 +1,7 @@
 # heroku-buildpack-jemalloc
 
 I am a Heroku buildpack that installs
-[jemalloc](http://www.canonware.com/jemalloc/) into a dyno slug.
+[jemalloc](http://jemalloc.net/) into a dyno slug.
 
 ## Install
 
