@@ -34,10 +34,13 @@ Setting LD_PRELOAD can sometimes mess with the building of an app - if you're se
 
 ## Other JEMalloc versions
 
-You can point to a specific tag to lock to a specific version of jemalloc. To see all available versions, see the [releases page.](https://github.com/mojodna/heroku-buildpack-jemalloc/releases)
+You can switch between jemalloc versions by setting JEMALLOC_VERSION in your
+environment. The setting will take effect the next time you build a new slug.
+
+To see all available versions, see the [releases page.](https://github.com/mojodna/heroku-buildpack-jemalloc/releases)
 
 ```bash
-heroku buildpacks:add --index 1 https://github.com/mojodna/heroku-buildpack-jemalloc.git#v3.6.0
+heroku config:set JEMALLOC_VERSION=3.6.0
 git push heroku master
 ```
 

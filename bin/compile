@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
-
 set -e
 
-# parse params
+# Parse params
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 
-url="https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v5.0.0/jemalloc-5.0.0-1.tar.gz"
+# Default version
+version="5.0.1"
+
+# Read version from configured JEMALLOC_VERSION
+if [ -f $ENV_DIR/JEMALLOC_VERSION ]; then
+  version=$(cat $ENV_DIR/JEMALLOC_VERSION)
+fi
+
+url="https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v$version/jemalloc-$version-1.tar.gz"
 dest="$BUILD_DIR/vendor/jemalloc"
 
 echo "-----> Vendoring jemalloc"
