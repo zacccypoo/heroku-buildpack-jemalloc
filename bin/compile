@@ -7,39 +7,18 @@ set -e
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-function indent() {
-  c='s/^/       /'
-  case $(uname) in
-    Darwin) sed -l "$c";;
-    *)      sed -u "$c";;
-  esac
-}
+url="https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v5.0.0/jemalloc-5.0.0-1.tar.gz"
+dest="$BUILD_DIR/vendor/jemalloc"
 
-function vendor() {
-  binary="$1"
-  path="$2"
+echo "-----> Vendoring jemalloc"
+echo "       Fetching $url"
 
-  echo "Fetching $binary" | indent
-  mkdir -p $path
-  curl -sL $binary -s -o - | tar xz -C $path -f -
-
-  [ -d "$path/bin" ] && export PATH=$path/bin${PATH:+:${PATH}}
-
-  true
-}
-
-echo "-----> Vendoring binaries"
-vendor "https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v5.0.0/jemalloc-5.0.0-1.tar.gz" "$BUILD_DIR/vendor/jemalloc"
-
-echo "-----> Configuring build environment"
-
-cat <<EOF > export
-export PATH="$PATH:/app/vendor/jemalloc/bin"
-EOF
+mkdir -p $dest
+curl -sL $url | tar -C $dest -xz
 
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 
-cat <<EOF > $BUILD_DIR/.profile.d/$jemalloc.sh
+cat <<EOF > $BUILD_DIR/.profile.d/jemalloc.sh
 export PATH="$PATH:/app/vendor/jemalloc/bin"
 EOF
