@@ -8,7 +8,7 @@ I am a Heroku buildpack that installs
 [Heroku supports using multiple buildpacks for an app](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app).
 
 ```bash
-heroku buildpacks:add --index 1 https://github.com/mojodna/heroku-buildpack-jemalloc.git
+heroku buildpacks:add --index 1 https://github.com/gaffneyc/heroku-buildpack-jemalloc.git
 git push heroku master
 ```
 
@@ -37,7 +37,7 @@ Setting LD_PRELOAD can sometimes mess with the building of an app - if you're se
 You can switch between jemalloc versions by setting JEMALLOC_VERSION in your
 environment. The setting will take effect the next time you build a new slug.
 
-To see all available versions, see the [releases page.](https://github.com/mojodna/heroku-buildpack-jemalloc/releases)
+To see all available versions, see the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
 
 ```bash
 heroku config:set JEMALLOC_VERSION=3.6.0
