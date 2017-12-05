@@ -20,7 +20,11 @@ After you've added the buildpack, to use jemalloc with your app, prefix commands
 web: jemalloc.sh bundle exec puma -C config/puma.rb
 ```
 
-You can also use the environment variable LD_PRELOAD to replace `malloc` in all processes with `jemalloc`:
+You can also set JEMALLOC_ENABLED to "true" or set LD_PRELOAD directly to replace `malloc` in all process:
+```
+heroku config:set JEMALLOC_ENABLED=true
+```
+or
 
 ```
 LD_PRELOAD=`jemalloc-config --libdir`/libjemalloc.so.`jemalloc-config --revision`
