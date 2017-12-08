@@ -1,47 +1,69 @@
 # heroku-buildpack-jemalloc
 
-I am a Heroku buildpack that installs
-[jemalloc](http://jemalloc.net/) into a dyno slug.
+I am a Heroku buildpack that installs [jemalloc](http://jemalloc.net/) into a
+dyno slug.
 
 ## Install
 
 [Heroku supports using multiple buildpacks for an app](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app).
 
-```bash
+```console
 heroku buildpacks:add --index 1 https://github.com/gaffneyc/heroku-buildpack-jemalloc.git
 git push heroku master
 ```
 
 ## Usage
 
-After you've added the buildpack, to use jemalloc with your app, prefix commands with `jemalloc.sh <cmd>`:
+### Recommended
 
+Set the JEMALLOC_ENABLED config option to true and jemalloc will be used for
+all commands run inside of your dynos.
+
+```console
+heroku config:set JEMALLOC_ENABLED=true
 ```
+
+### Per dyno
+
+To control when jemalloc is configured on a per dyno basis use
+`jemalloc.sh <cmd>` and ensure that JEMALLOC_ENABLED is unset.
+
+Example Procfile:
+```yaml
 web: jemalloc.sh bundle exec puma -C config/puma.rb
 ```
 
-You can also set JEMALLOC_ENABLED to "true" or set LD_PRELOAD directly to replace `malloc` in all process:
-```
+## Configuration
+
+### JEMALLOC_ENABLED
+
+Set this to true to automatically enable jemalloc.
+
+```console
 heroku config:set JEMALLOC_ENABLED=true
 ```
-or
 
+To disable jemalloc set the option to false. This will cause the application to
+restart disabling jemalloc.
+
+```console
+heroku config:set JEMALLOC_ENABLED=false
 ```
-LD_PRELOAD=`jemalloc-config --libdir`/libjemalloc.so.`jemalloc-config --revision`
-```
 
-Setting LD_PRELOAD can sometimes mess with the building of an app - if you're seeing errors during slug compilation, try removing LD_PRELOAD and just using `jemalloc.sh`.
+### JEMALLOC_VERSION
 
-## Other JEMalloc versions
+Set this to select or pin to a specific version of jemalloc. The default is to
+use the latest stable version if this is not set. You will receive an error
+mentioning tar if the version does not exist.
 
-You can switch between jemalloc versions by setting JEMALLOC_VERSION in your
-environment. The setting will take effect the next time you build a new slug.
+A full list of supported versions and stacks is available on the
+[releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
 
-To see all available versions, see the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
+**note:** This setting is only used during slug compilation. Changing it will
+require a code change to be deployed in order to take affect.
 
-```bash
-heroku config:set JEMALLOC_VERSION=3.6.0
-git push heroku master
+```console
+heroku config:set JEMALLOC_VERSION=5.0.1
 ```
 
 ## Building
@@ -49,8 +71,23 @@ git push heroku master
 This uses Docker to build against Heroku
 [stack-image](https://github.com/heroku/stack-images)-like images.
 
-```bash
+```console
 make VERSION=5.0.1
 ```
 
 Artifacts will be dropped in `dist/` based on Heroku stack and jemalloc version.
+
+### Deploying New Versions
+
+- `make VERSION=X.Y.Z`
+- `open dist`
+- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
+- Edit the release corresponding to each heroku Stack
+- Drag and drop the new build to attach
+
+### Creating a New Stack
+- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
+- Click "Draft a new release"
+- Tag is the name of the Stack (e.g. `heroku-18`)
+- Target is `release-master`
+- Title is `Builds for the [stack] stack`
