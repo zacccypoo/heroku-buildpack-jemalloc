@@ -13,7 +13,7 @@ src/jemalloc-%.tar.bz2:
 
 .PHONY: cedar-14 heroku-16
 
-# Build for cedar stack (deprecated)
+# Build for cedar-14 stack
 cedar-14: src/jemalloc-$(VERSION).tar.bz2
 	docker run -it --volume="$(ROOT_DIR):/wrk" \
 		heroku/cedar:14 /wrk/build.sh $(VERSION) cedar-14
@@ -23,7 +23,7 @@ heroku-16: src/jemalloc-$(VERSION).tar.bz2
 	docker run -it --volume="$(ROOT_DIR):/wrk" \
 		heroku/heroku:16-build /wrk/build.sh $(VERSION) heroku-16
 
-# Build recent releases for heroku-16 and cedar
+# Build recent releases for all supported stacks
 all:
 	$(MAKE) cedar-14 VERSION=3.6.0
 	$(MAKE) cedar-14 VERSION=4.5.0
