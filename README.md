@@ -56,8 +56,7 @@ Set this to select or pin to a specific version of jemalloc. The default is to
 use the latest stable version if this is not set. You will receive an error
 mentioning tar if the version does not exist.
 
-A full list of supported versions and stacks is available on the
-[releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
+**Default**: `5.0.1`
 
 **note:** This setting is only used during slug compilation. Changing it will
 require a code change to be deployed in order to take affect.
@@ -65,6 +64,22 @@ require a code change to be deployed in order to take affect.
 ```console
 heroku config:set JEMALLOC_VERSION=5.0.1
 ```
+
+#### Available Versions
+
+| Version |
+| ------- |
+| 3.6.0   |
+| 4.0.4   |
+| 4.1.1   |
+| 4.2.1   |
+| 4.3.1   |
+| 4.4.0   |
+| 4.5.0   |
+| 5.0.1   |
+
+The complete and most up to date list of supported versions and stacks is
+available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
 
 ## Building
 
