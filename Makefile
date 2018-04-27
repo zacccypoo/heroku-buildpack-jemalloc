@@ -26,8 +26,18 @@ heroku-16: src/jemalloc-$(VERSION).tar.bz2
 # Build recent releases for all supported stacks
 all:
 	$(MAKE) cedar-14 VERSION=3.6.0
+	$(MAKE) cedar-14 VERSION=4.0.4
+	$(MAKE) cedar-14 VERSION=4.1.1
+	$(MAKE) cedar-14 VERSION=4.2.1
+	$(MAKE) cedar-14 VERSION=4.3.1
+	$(MAKE) cedar-14 VERSION=4.4.0
 	$(MAKE) cedar-14 VERSION=4.5.0
 	$(MAKE) cedar-14 VERSION=5.0.1
 	$(MAKE) heroku-16 VERSION=3.6.0
+	$(MAKE) heroku-16 VERSION=4.0.4
+	$(MAKE) heroku-16 VERSION=4.1.1
+	$(MAKE) heroku-16 VERSION=4.2.1
+	$(MAKE) heroku-16 VERSION=4.3.1
+	$(MAKE) heroku-16 VERSION=4.4.0
 	$(MAKE) heroku-16 VERSION=4.5.0
 	$(MAKE) heroku-16 VERSION=5.0.1
