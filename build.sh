@@ -14,4 +14,4 @@ make install_bin install_include install_lib_shared install_lib_static
 
 # Bundle and compress the compiled library
 mkdir -p /wrk/dist/$stack
-tar -C /app/vendor/jemalloc -jc -f /wrk/dist/$stack/jemalloc-$version.tar.bz2 .
+tar -C /app/vendor/jemalloc -c . | bzip2 -9 > /wrk/dist/$stack/jemalloc-$version.tar.bz2
