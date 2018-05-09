@@ -10,7 +10,7 @@ tar -C $build --strip-components=1 -xj -f /wrk/src/jemalloc-$version.tar.bz2
 
 cd $build
 ./configure --prefix=/app/vendor/jemalloc
-make install_bin install_include install_lib_shared install_lib_static
+make -j $(nproc --all) install_bin install_lib_shared
 
 # Bundle and compress the compiled library
 mkdir -p /wrk/dist/$stack
