@@ -1,11 +1,11 @@
 # heroku-buildpack-jemalloc
 
-I am a Heroku buildpack that installs [jemalloc](http://jemalloc.net/) into a
-dyno slug.
+[jemalloc](http://jemalloc.net/) is a general purpose malloc implementation
+that works to avoid memory fragmentation in multithreaded applications. This
+buildpack makes it easy to install and use jemalloc on Heroku and compatible
+platforms.
 
 ## Install
-
-[Heroku supports using multiple buildpacks for an app](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app).
 
 ```console
 heroku buildpacks:add --index 1 https://github.com/gaffneyc/heroku-buildpack-jemalloc.git
@@ -77,6 +77,7 @@ heroku config:set JEMALLOC_VERSION=5.0.1
 | 4.4.0   |
 | 4.5.0   |
 | 5.0.1   |
+| 5.1.0   |
 
 The complete and most up to date list of supported versions and stacks is
 available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
