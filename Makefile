@@ -1,6 +1,6 @@
 default: cedar-14 heroku-16 heroku-18
 
-VERSION := 5.0.1
+VERSION := 5.1.0
 ROOT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 clean:

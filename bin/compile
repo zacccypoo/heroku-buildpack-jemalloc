@@ -8,7 +8,7 @@ CACHE_DIR=$2
 ENV_DIR=$3
 
 # Default version
-version="5.0.1"
+version="5.1.0"
 
 # Read version from configured JEMALLOC_VERSION
 if [ -f $ENV_DIR/JEMALLOC_VERSION ]; then
@@ -18,7 +18,7 @@ fi
 url="https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases/download/$STACK/jemalloc-$version.tar.bz2"
 dest="$BUILD_DIR/vendor/jemalloc"
 
-echo "-----> Vendoring jemalloc"
+echo "-----> Vendoring jemalloc $version"
 echo "       Fetching $url"
 
 mkdir -p $dest
