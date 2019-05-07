@@ -78,6 +78,7 @@ heroku config:set JEMALLOC_VERSION=3.6.0
 | 4.5.0   |
 | 5.0.1   |
 | 5.1.0   |
+| 5.2.0   |
 
 The complete and most up to date list of supported versions and stacks is
 available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
