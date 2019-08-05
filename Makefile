@@ -47,3 +47,4 @@ all:
 	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.0.1
 	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.1.0
 	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.2.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.2.1

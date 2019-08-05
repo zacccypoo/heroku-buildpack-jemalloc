@@ -67,18 +67,19 @@ heroku config:set JEMALLOC_VERSION=3.6.0
 
 #### Available Versions
 
-| Version                                                          |
-| ---------------------------------------------------------------- |
-| [3.6.0](https://github.com/jemalloc/jemalloc/releases/tag/3.6.0) |
-| [4.0.4](https://github.com/jemalloc/jemalloc/releases/tag/4.0.4) |
-| [4.1.1](https://github.com/jemalloc/jemalloc/releases/tag/4.1.1) |
-| [4.2.1](https://github.com/jemalloc/jemalloc/releases/tag/4.2.1) |
-| [4.3.1](https://github.com/jemalloc/jemalloc/releases/tag/4.3.1) |
-| [4.4.0](https://github.com/jemalloc/jemalloc/releases/tag/4.4.0) |
-| [4.5.0](https://github.com/jemalloc/jemalloc/releases/tag/4.5.0) |
-| [5.0.1](https://github.com/jemalloc/jemalloc/releases/tag/5.0.1) |
-| [5.1.0](https://github.com/jemalloc/jemalloc/releases/tag/5.1.0) |
-| [5.2.0](https://github.com/jemalloc/jemalloc/releases/tag/5.2.0) |
+| Version                                                          | Released   |
+| ---------------------------------------------------------------- | ---------- |
+| [3.6.0](https://github.com/jemalloc/jemalloc/releases/tag/3.6.0) | 2015-04-15 |
+| [4.0.4](https://github.com/jemalloc/jemalloc/releases/tag/4.0.4) | 2015-10-24 |
+| [4.1.1](https://github.com/jemalloc/jemalloc/releases/tag/4.1.1) | 2016-05-03 |
+| [4.2.1](https://github.com/jemalloc/jemalloc/releases/tag/4.2.1) | 2016-06-08 |
+| [4.3.1](https://github.com/jemalloc/jemalloc/releases/tag/4.3.1) | 2016-11-07 |
+| [4.4.0](https://github.com/jemalloc/jemalloc/releases/tag/4.4.0) | 2016-12-04 |
+| [4.5.0](https://github.com/jemalloc/jemalloc/releases/tag/4.5.0) | 2017-02-28 |
+| [5.0.1](https://github.com/jemalloc/jemalloc/releases/tag/5.0.1) | 2017-07-01 |
+| [5.1.0](https://github.com/jemalloc/jemalloc/releases/tag/5.1.0) | 2018-05-08 |
+| [5.2.0](https://github.com/jemalloc/jemalloc/releases/tag/5.2.0) | 2019-04-02 |
+| [5.2.1](https://github.com/jemalloc/jemalloc/releases/tag/5.2.1) | 2019-08-05 |
 
 The complete and most up to date list of supported versions and stacks is
 available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
