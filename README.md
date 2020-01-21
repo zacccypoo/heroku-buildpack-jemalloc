@@ -56,7 +56,7 @@ Set this to select or pin to a specific version of jemalloc. The default is to
 use the latest stable version if this is not set. You will receive an error
 mentioning tar if the version does not exist.
 
-**Default**: `5.1.0`
+**Default**: `5.2.1`
 
 **note:** This setting is only used during slug compilation. Changing it will
 require a code change to be deployed in order to take affect.
