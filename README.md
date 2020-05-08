@@ -12,6 +12,20 @@ heroku buildpacks:add --index 1 https://github.com/gaffneyc/heroku-buildpack-jem
 git push heroku master
 ```
 
+## Made possible by Dead Man's Snitch
+
+Continued development and support of the jemalloc buildpack is sponsored by
+[Dead Man's Snitch](https://deadmanssnitch.com).
+
+Ever been surprised that a critical recurring job was silently failing to run?
+Whether it's backups, cache clearing, sending invoices, or whatever your
+application depends on, Dead Man's Snitch makes it easy to
+[monitor heroku scheduler](https://deadmanssnitch.com/docs/heroku) tasks or to add
+[cron job monitoring](https://deadmanssnitch.com/docs/cron-job-monitoring) to
+your other services.
+
+Get started for free today with [Dead Man's Snitch on Heroku](https://elements.heroku.com/addons/deadmanssnitch)
+
 ## Usage
 
 ### Recommended
@@ -83,17 +97,6 @@ heroku config:set JEMALLOC_VERSION=3.6.0
 
 The complete and most up to date list of supported versions and stacks is
 available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
-
-## Thanks
-
-Continued development of the jemalloc buildpack is sponsored by [Dead Man's Snitch](https://deadmanssnitch.com).
-Ever been surprised that a critical scheduled task was silently failing to
-run? Whether it's backups, cache clearing, or sending invoices, Dead Man's Snitch makes it easy to
-[monitor heroku scheduler](https://deadmanssnitch.com/docs/heroku) tasks or to add
-[cron job monitoring](https://deadmanssnitch.com/docs/cron-job-monitoring)
-to your other services.
-
-Get started for free today with [Dead Man's Snitch on Heroku](http://github.com/deadmanssnitch/heroku-buildpack-dms)
 
 ## Building
 
