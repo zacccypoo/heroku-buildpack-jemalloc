@@ -27,7 +27,7 @@ function download_jemalloc() {
   # Disable exit on command failure so we can provide better error messages
   set +e
 
-  echo "       Fetching $url"
+  echo "       jemalloc: Fetching $url"
   status=$(curl -sL -f  -w "%{http_code}" -o /tmp/jemalloc.tar.bz2 $url)
 
   if [[ $status -ge 300 ]]; then
@@ -46,7 +46,7 @@ echo "-----> jemalloc: Vendoring $version"
 
 # Check if this version of jemalloc is in the cache and download it if it
 # doesn't exist.
-if [[ ! -f $bundle ]]; then
+if [[ ! -d $bundle ]]; then
   download_jemalloc
 fi
 
