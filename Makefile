@@ -32,6 +32,7 @@ docker\:pull:
 	docker pull heroku/cedar:14
 	docker pull heroku/heroku:16-build
 	docker pull heroku/heroku:18-build
+	docker pull heroku/heroku:20-build
 
 # Build for cedar-14 stack
 cedar-14: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
@@ -48,16 +49,21 @@ heroku-18: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
 	docker run --rm -it --volume="$(ROOT_DIR):/wrk" \
 		heroku/heroku:18-build /wrk/build.sh $(VERSION) heroku-18
 
+# Build for heroku-20 stack
+heroku-20: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
+	docker run --rm -it --volume="$(ROOT_DIR):/wrk" \
+		heroku/heroku:20-build /wrk/build.sh $(VERSION) heroku-20
+
 # Build recent releases for all supported stacks
 all:
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=3.6.0
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.0.4
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.1.1
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.2.1
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.3.1
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.4.0
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=4.5.0
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.0.1
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.1.0
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.2.0
-	$(MAKE) cedar-14 heroku-16 heroku-18 VERSION=5.2.1
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=3.6.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.0.4
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.1.1
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.2.1
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.3.1
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.4.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=4.5.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=5.0.1
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=5.1.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=5.2.0
+	$(MAKE) cedar-14 heroku-16 heroku-18 heroku-20 VERSION=5.2.1
