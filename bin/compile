@@ -7,6 +7,21 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+# SHA256 checksums of the sources hosted on GitHub at https://github.com/jemalloc/jemalloc/releases
+declare -A checksums=(
+  ['3.6.0']='e16c2159dd3c81ca2dc3b5c9ef0d43e1f2f45b04548f42db12e7c12d7bdf84fe'
+  ['4.0.4']='3fda8d8d7fcd041aa0bebbecd45c46b28873cf37bd36c56bf44961b36d0f42d0'
+  ['4.1.1']='c8f13b72b3aced936337a864fbe614a43e968f4adf64314b2a39c6ce43c9adae'
+  ['4.2.1']='5630650d5c1caab95d2f0898de4fe5ab8519dc680b04963b38bb425ef6a42d57'
+  ['4.3.1']='f7bb183ad8056941791e0f075b802e8ff10bd6e2d904e682f87c8f6a510c278b'
+  ['4.4.0']='a7aea63e9718d2f1adf81d87e3df3cb1b58deb86fc77bad5d702c4c59687b033'
+  ['4.5.0']='9409d85664b4f135b77518b0b118c549009dc10f6cba14557d170476611f6780'
+  ['5.0.1']='4814781d395b0ef093b21a08e8e6e0bd3dab8762f9935bbfb71679b0dea7c3e9'
+  ['5.1.0']='5396e61cc6103ac393136c309fae09e44d74743c86f90e266948c50f3dbb7268'
+  ['5.2.0']='74be9f44a60d2a99398e706baa921e4efde82bf8fd16e5c0643c375c5851e3b4'
+  ['5.2.1']='34330e5ce276099e2e8950d9335db5a875689a4c6a56751ef3b1d8c537f887f6'
+)
+
 # Default version
 version="5.2.1"
 
@@ -19,32 +34,15 @@ fi
 dest="$BUILD_DIR/vendor/jemalloc"
 
 # bundle is the full path to the cached jemalloc binaries for this version.
-bundle=$CACHE_DIR/jemalloc/$version
+bundle=$CACHE_DIR/jemalloc/$STACK/$version
 
-# cached checks to see if there is a compatible version in the cache.
-function cached() {
-  # Returns false when there is no matching version in the cache.
-  if [[ ! -d $bundle ]]; then
-    return 1
-  fi
-
-  if [ -f "$bundle/.stack" ]; then
-    CACHED_STACK=$(cat $bundle/.stack)
-  fi
-
-  # True when the downloaded version in the cache is for the same stack as the
-  # compiling dyno. CACHED_STACK will be empty when the .stack file is missing
-  # which also forces a fresh download.
-  [[ $CACHED_STACK == $STACK ]]
-}
-
-function download_jemalloc() {
-  url="https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases/download/$STACK/jemalloc-$version.tar.bz2"
+function download() {
+  url=https://github.com/jemalloc/jemalloc/releases/download/$version/jemalloc-$version.tar.bz2
 
   # Disable exit on command failure so we can provide better error messages
   set +e
 
-  echo "       jemalloc: Fetching $url"
+  echo "       jemalloc: Downloading $url"
   status=$(curl -sL -f  -w "%{http_code}" -o /tmp/jemalloc.tar.bz2 $url)
 
   if [[ $status -ge 300 ]]; then
@@ -52,29 +50,81 @@ function download_jemalloc() {
     exit 1
   fi
 
+  # Fetch the checksum from checksums above or from JEMALLOC_CHECKSUM if set.
+  checksum="${checksums[$version]}"
+  if [ -f $ENV_DIR/JEMALLOC_CHECKSUM ]; then
+    checksum=$(cat $ENV_DIR/JEMALLOC_CHECKSUM)
+  fi
+
+  # Verify the SHA256 checksum for the source
+  echo "$checksum  /tmp/jemalloc.tar.bz2" | sha256sum --status -c -
+
+  # Ensure the checksum passed
+  retVal=$?
+  if [[ $retVal -ne 0 ]]; then
+    echo " !     jemalloc: Downloaded source failed checksum"
+    exit $retVal
+  fi
+
   # Reenable exit on failure
   set -e
-
-  mkdir -p $bundle
-  tar -xj -f /tmp/jemalloc.tar.bz2 -C $bundle
-
-  # Store the stack version (e.g. heroku-20) that was downloaded to force a
-  # redownload should the stack change.
-  echo "$STACK" > "$bundle/.stack"
 }
 
-echo "-----> jemalloc: Vendoring $version"
+function compile() {
+  set +e
+
+  echo "       jemalloc: Compiling $version"
+  (
+    # Only applies to this sub-shell
+    set -e
+
+    # Logs for the sub-shell go to /tmp/jemalloc.log for printing in case of an
+    # error.
+    exec > /tmp/jemalloc.log 2>&1
+
+    # Use a temporary directory to extract and compile the source
+    cd $(mktemp -d)
+    mkdir -p $bundle
+
+    # Extract the source 
+    tar --strip-components=1 -xj -f /tmp/jemalloc.tar.bz2
+
+    # Configure jemalloc to run in /app/vendor/jemalloc
+    ./configure --prefix=/app/vendor/jemalloc
+
+    # Compile just the shared libraries
+    make -j $(nproc --all) build_lib_shared
+
+    # Install directly into the cache directory for the stack and version.
+    make BINDIR=$bundle/bin LIBDIR=$bundle/lib install_bin install_lib_shared
+  )
+
+  retVal=$?
+  if [[ $retVal -ne 0 ]]; then
+    echo " !     jemalloc: Failed to compile jemalloc"
+    cat /tmp/jemalloc.log
+
+    exit $retVal
+  fi
+
+  # Reenable exit on failure
+  set -e
+}
 
 # Check if this version of jemalloc is in the cache and download it if it
 # doesn't exist.
-if ! cached; then
-  download_jemalloc
+if [[ ! -d $bundle ]]; then
+  echo "-----> jemalloc: Installing $version from source"
+
+  download
+  compile
+else
+  echo "-----> jemalloc: Installing $version from cache"
 fi
 
 mkdir -p $dest
 cp -r $bundle -T $dest/
 
-echo "-----> jemalloc: Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 
 cat <<'EOF' > $BUILD_DIR/.profile.d/jemalloc.sh
@@ -86,3 +136,5 @@ if [ "$JEMALLOC_ENABLED" = 'true' ]; then
   export LD_PRELOAD="/app/vendor/jemalloc/lib/libjemalloc.so $LD_PRELOAD"
 fi
 EOF
+
+echo "-----> jemalloc: Done"
