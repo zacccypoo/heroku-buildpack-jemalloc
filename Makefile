@@ -55,3 +55,4 @@ all:
 	$(MAKE) heroku-18 heroku-20 VERSION=5.1.0
 	$(MAKE) heroku-18 heroku-20 VERSION=5.2.0
 	$(MAKE) heroku-18 heroku-20 VERSION=5.2.1
+	$(MAKE) heroku-18 heroku-20 VERSION=5.3.0
