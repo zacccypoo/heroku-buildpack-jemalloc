@@ -1,4 +1,4 @@
-default: heroku-18 heroku-20
+default: heroku-18 heroku-20 heroku-22
 
 VERSION := 5.2.0
 ROOT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -42,17 +42,22 @@ heroku-20: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
 	docker run --rm -it --volume="$(ROOT_DIR):/wrk" \
 		heroku/heroku:20-build /wrk/build.sh $(VERSION) heroku-20
 
+# Build for heroku-22 stack
+heroku-22: src/jemalloc-$(VERSION).tar.bz2 docker\:pull
+	docker run --rm -it --volume="$(ROOT_DIR):/wrk" \
+		heroku/heroku:22-build /wrk/build.sh $(VERSION) heroku-22
+
 # Build recent releases for all supported stacks
 all:
-	$(MAKE) heroku-18 heroku-20 VERSION=3.6.0
-	$(MAKE) heroku-18 heroku-20 VERSION=4.0.4
-	$(MAKE) heroku-18 heroku-20 VERSION=4.1.1
-	$(MAKE) heroku-18 heroku-20 VERSION=4.2.1
-	$(MAKE) heroku-18 heroku-20 VERSION=4.3.1
-	$(MAKE) heroku-18 heroku-20 VERSION=4.4.0
-	$(MAKE) heroku-18 heroku-20 VERSION=4.5.0
-	$(MAKE) heroku-18 heroku-20 VERSION=5.0.1
-	$(MAKE) heroku-18 heroku-20 VERSION=5.1.0
-	$(MAKE) heroku-18 heroku-20 VERSION=5.2.0
-	$(MAKE) heroku-18 heroku-20 VERSION=5.2.1
-	$(MAKE) heroku-18 heroku-20 VERSION=5.3.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=3.6.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.0.4
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.1.1
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.2.1
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.3.1
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.4.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=4.5.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=5.0.1
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=5.1.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=5.2.0
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=5.2.1
+	$(MAKE) heroku-18 heroku-20 heroku-22 VERSION=5.3.0
