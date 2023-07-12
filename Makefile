@@ -1,6 +1,6 @@
 default: heroku-18 heroku-20 heroku-22
 
-VERSION := 5.2.0
+VERSION := 5.3.0
 ROOT_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 clean:
