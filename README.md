@@ -64,6 +64,25 @@ restart disabling jemalloc.
 heroku config:set JEMALLOC_ENABLED=false
 ```
 
+### MALLOC_CONF
+
+While jemalloc's default configuration works well in most situations it does
+provide a set of options to fine tune performance and memory usage. You can
+find a full list of options [in the jemalloc documentation](https://github.com/jemalloc/jemalloc/blob/dev/TUNING.md).
+
+
+#### Rails
+
+Many Rails applications benefit from a common set of options and the below was
+added as the default with dockerfile-rails as of Rails 7.1. While this is a
+good default for most Rails apps it perfers performance over minimal memory
+usage.. For more details on each option and different configs with different
+trade offs there are more details [in this gist](https://gist.github.com/jjb/9ff0d3f622c8bbe904fe7a82e35152fc#malloc_conf-options).
+
+```
+heroku config:set MALLOC_CONF=dirty_decay_ms:1000,narenas:2,background_thread:true
+```
+
 ### JEMALLOC_VERSION
 
 Set this to select or pin to a specific version of jemalloc. The default is to
