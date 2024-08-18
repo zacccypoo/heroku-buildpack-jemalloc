@@ -99,28 +99,7 @@ heroku config:set JEMALLOC_VERSION=3.6.0
 The complete and most up to date list of supported versions and stacks is
 available on the [releases page.](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
 
-## Building
+## Development
 
-This uses Docker to build against Heroku
-[stack-image](https://github.com/heroku/stack-images)-like images.
-
-```console
-make VERSION=5.1.0
-```
-
-Artifacts will be dropped in `dist/` based on Heroku stack and jemalloc version.
-
-### Deploying New Versions
-
-- `make VERSION=X.Y.Z`
-- `open dist`
-- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
-- Edit the release corresponding to each heroku Stack
-- Drag and drop the new build to attach
-
-### Creating a New Stack
-- Go to [releases](https://github.com/gaffneyc/heroku-buildpack-jemalloc/releases)
-- Click "Draft a new release"
-- Tag is the name of the Stack (e.g. `heroku-18`)
-- Target is `release-master`
-- Title is `Builds for the [stack] stack`
+Run `make console` to start up a shell in a test build environment that mimic's
+Heroku's build phase.
