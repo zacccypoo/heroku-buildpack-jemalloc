@@ -112,16 +112,8 @@ function compile() {
   set -e
 }
 
-# Check if this version of jemalloc is in the cache and download it if it
-# doesn't exist.
-if [[ ! -d $bundle ]]; then
-  echo "-----> jemalloc: Installing $version from source"
-
-  download
-  compile
-else
-  echo "-----> jemalloc: Installing $version from cache"
-fi
+download
+compile
 
 mkdir -p $dest
 cp -r $bundle -T $dest/
