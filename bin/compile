@@ -91,7 +91,7 @@ function compile() {
     tar --strip-components=1 -xj -f /tmp/jemalloc.tar.bz2
 
     # Configure jemalloc to run in /app/vendor/jemalloc
-    ./configure --prefix=/app/vendor/jemalloc --enable-prof
+    ./configure --prefix=/app/vendor/jemalloc --enable-prof --enable-stats
 
     # Compile just the shared libraries
     make -j $(nproc --all) build_lib_shared
